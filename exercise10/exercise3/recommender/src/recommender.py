@@ -28,8 +28,10 @@ app = Flask(__name__)
 @app.route('/',  methods=['GET'])
 def index():
     global algo
-    target_userId = request.args.get("userid")
-    movieId = request.args.get("itemid")
+    target_userId = int(float(request.args.get("userid")))
+    movieId = int(float(request.args.get("itemid")))
+    # target_userId = df_ratings.iloc[user_idx].userId
+    # movieId = df_ratings.iloc[movie_idx].movieId
     print(f"Finding recommendations for user {target_userId} and movieId {movieId}")
     estimated_rating = algo.predict(target_userId, movieId).est
     print(f"Estimated rating: {estimated_rating}")
