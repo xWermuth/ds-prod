@@ -14,6 +14,7 @@ def index():
     rating = float(request.args.get("rating"))
     estimated_rating = float(request.args.get("estimated_rating"))
     rmse = np.sqrt(np.mean((estimated_rating-rating)**2))
+    print("----------------------------------------------------------------------")
     print(f"userId: {userid}")
     print(f"rating: {rating}")
     print(f"estimated_rating: {estimated_rating}")
@@ -22,6 +23,11 @@ def index():
     if userid not in rmses:
         rmses[userid] = []
     rmses[userid].append(rmse)
+
+    avg = np.average(rmses[userid])
+    print(f"Average rmse: {avg}")
+    print("----------------------------------------------------------------------")
+
     return rmses
 
 @app.route('/rmse',  methods=['GET'])

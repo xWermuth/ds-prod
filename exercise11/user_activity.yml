@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: useractivity
+  labels: 
+    app: useractivitysystem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: useractivitysystem
+  template:
+    metadata:
+      labels:
+        app: useractivitysystem
+    spec:
+      containers:
+        - name: useractivity
+          image: wermuth989/exercise3-user_activity
+          ports:
+          - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: useractivity
+spec:
+  selector:
+    app: useractivitysystem
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
+
