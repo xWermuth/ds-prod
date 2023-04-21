@@ -1,0 +1,171 @@
+# ---- 01 ----
+PUT my_index 
+{
+  "settings": {
+  "number_of_shards": 3,
+  "number_of_replicas": 2
+  }
+}
+
+# ---- 02 ----
+PUT my_index/_doc/14602826
+{
+  "author_name":  "Yearsley, Ann",
+  "title": "Poems on several occasions",
+  "country": "England",
+  "language": "English",
+  "year": 1786
+}
+
+# ---- 03 ----
+GET my_index/_mapping
+
+# ---- 04 ----
+{
+  "my_index": {
+    "mappings": {
+      "properties": {
+        "author_name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "country": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "language": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "title": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "year": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}
+
+delete my_index
+
+# ---- 05 ----
+
+PUT my_custom_map 
+{
+  "settings": {
+  "number_of_shards": 3,
+  "number_of_replicas": 2
+  },
+  "mappings": 
+  {
+    "properties": {
+        "author_name": {
+          "type": "text"
+        },
+        "country": {
+          "type": "text"
+        },
+        "language": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "keyword"
+        },
+        "year": {
+          "type": "long"
+        }
+      }
+    }
+}
+
+
+PUT my_custom_map/_settings 
+{
+  "index": 
+  {
+    "refresh_interval": -1
+  }
+}
+
+GET my_custom_map/_settings
+
+POST _bulk
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602830"}}
+{"author_name": "A, T.", "title": "A Satyr against Vertue. (A poem: supposed to be spoken by a Town-Hector )", "country": "England", "language": "English", "year": "1679"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602831"}}
+{"author_name": "A, T.", "title": "The Aeronaut, a poem; founded almost entirely, upon a statement, printed in the newspapers, of a voyage from Dublin, in October, 1812", "country": "Ireland", "language": "English", "year": "1816"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602832"}}
+{"author_name": "Albert, Prince Consort, consort of Victoria, Queen of Great Britain", "title": "The Prince Albert, a poem", "country": "Ireland", "language": "English", "year": "1868"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602833"}}
+{"author_name": "Anslow, Robert", "title": "The Defeat of the Spanish Armada, A.D. 1588. A tercentenary ballad, A.D. 1888", "country": "England", "language": "English", "year": "1888"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602834"}}
+{"author_name": "Anslow, Robert", "title": "A Familiar Answer to a Familiar Letter", "country": "England", "language": "English", "year": "1720"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602835"}}
+{"author_name": "Anslow, Robert", "title": "The Irish Home Rule Bill. A poetical pamphlet, etc", "country": "England", "language": "English", "year": "1893"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602836"}}
+{"author_name": "Anslow, Robert", "title": "Confessions of a Coquette, while staying at Scarboro, Whitby, & Bridlington. By Azucena", "country": "England", "language": "English", "year": "1888"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602837"}}
+{"author_name": "Bellamy, James William", "title": "Jonah. The Seatonian Prize Poem for the year 1815", "country": "England", "language": "English", "year": "1815"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602838"}}
+{"author_name": "Brabant, Henry, Sir", "title": "The Eve of the Revolution; in Newcastle-upon-Tyne. (The Case of Sir Henry Brabant, knt, Mayor of Newcastle upon Tyne, most humbly offered to your Majesties Royal consideration.)", "country": "England", "language": "English", "year": "1848"}
+{ "index" : { "_index" : "my_custom_map", "_id" : "14602839"}}
+{"author_name": "Brierley, Benjamin", "title": "Humorous Rhymes", "country": "England", "language": "English", "year": "1889"}
+
+GET my_custom_map/_count
+
+PUT my_custom_map/_settings
+{
+  "index" : {
+    "refresh_interval" : "1s"
+  }
+}
+
+GET my_custom_map/_count
+
+# AND seperated by spaced
+GET my_custom_map/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": {
+        "query": "Irish Home"
+      }
+    }
+  }
+}
+
+# Or seperated by spaced
+GET my_custom_map/_search
+{
+  "query": {
+    "match": {
+      "title": {
+         "query": "the irish home"
+      }
+    }
+  }
+}
+
