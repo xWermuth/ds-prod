@@ -37,3 +37,11 @@ kubectl delete all --all # deletes all the deployments, services, etc.
 ```bash
 docker build -f ./feedback/Dockerfile -t wermuth989/feedback:latest . --no-cache
 ```
+
+### Grafana
+
+Port forward
+
+```bash
+kubectl port-forward service/grafana 3000:3000
+```
