@@ -13,6 +13,7 @@ brew install hyperkit
 minikube start
 eval $(minikube -p minikube docker-env) # Point the minicube to the docker daemon
 minikube status                         # Status of minicube
+ssh minikube
 kubectl run nginx --image=nginx         # Run docker image in kubernetes
 kubectl get all                         # See what's running on your Minikube cluster - all | service | deployment | pod
 minikube stop
