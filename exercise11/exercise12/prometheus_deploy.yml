@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus-deployment
-  # namespace: monitoring
   labels:
     app: prometheusserver
 spec:
@@ -20,8 +19,6 @@ spec:
           image: prom/prometheus:latest
           ports:
             - containerPort: 9090
-          args:
-            - '--config.file=/etc/prometheus/prometheus.yml'
           volumeMounts:
             - name: prometheus-config-volume
               mountPath: /etc/prometheus

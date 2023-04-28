@@ -1,9 +1,11 @@
 import numpy as np
 from flask import Flask, request, jsonify
+from prometheus_client import start_http_server, Gauge
 
 
+start_http_server(9000)
 app = Flask(__name__)
-
+gauge = Gauge('rmse', 'rmse for predicted rating')
 
 rmses = {}
 @app.route('/',  methods=['GET'])
@@ -27,7 +29,7 @@ def index():
     avg = np.average(rmses[userid])
     print(f"Average rmse: {avg}")
     print("----------------------------------------------------------------------")
-
+    gauge.set(rmse)
     return rmses
 
 @app.route('/rmse',  methods=['GET'])

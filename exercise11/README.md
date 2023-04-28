@@ -27,6 +27,13 @@ kubectl apply -f configmap.yaml # apply secret and configmap first (dependencies
 kubectl apply -f mongo.yaml
 kubectl apply -f mongoexpress.yaml
 kubectl apply –f . # apply all yaml files in current dir
-minikube service --url mongo-express-service # inspect service
+minikube service --url prometheus # inspect service
 kubectl delete all --all # deletes all the deployments, services, etc.
+```
+
+
+### Docker image
+
+```bash
+docker build -f ./feedback/Dockerfile -t wermuth989/feedback:latest . --no-cache
 ```
